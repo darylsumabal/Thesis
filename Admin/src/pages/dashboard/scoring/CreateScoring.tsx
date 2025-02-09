@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
-  useAddCriteria,
+  useCreateCriteriaPointBased,
   useShowJudges,
 } from "@/hooks/tanstack/scoring/scoring";
 import { formSchema, FormValues } from "@/schema/scoring";
@@ -43,10 +43,11 @@ import { useLocation, useParams } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 
 const CreateScoring = () => {
+  
   const [selectedJudges, setSelectedJudges] = useState<string[]>([]);
   const [addedJudges, setAddedJudges] = useState<string[]>([]);
   const [judgesId, setJudgesId] = useState<number[]>([]);
-  const { mutateAsync } = useAddCriteria();
+  const { mutateAsync } = useCreateCriteriaPointBased();
   const params = useParams();
   const location = useLocation();
 
@@ -86,6 +87,7 @@ const CreateScoring = () => {
 
     console.log(data);
     const judges = judgesId.length === 0;
+    console.log(totalScore );
     if (totalScore === 100) {
       // for (const key in data) {
       //   if (key !== "judges") {

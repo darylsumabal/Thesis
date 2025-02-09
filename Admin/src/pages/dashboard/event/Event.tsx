@@ -2,20 +2,20 @@ import CardWrap from "@/components/Card";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  addContest,
-  comboboxInputEventType,
+  ADD_CONTEST,
+  COMBOBOX_INPUT_EVENT_TYPE,
   EVENTS_FIELDS,
-  fieldNames,
-  fieldNamesUpcomingEvent,
-  fields,
+  FIELD_NAME_EVENT,
+  FIELD_NAME_UPCOMING_EVENT,
+  FIELD_EVENT,
   FormValues,
-  upcomingEventData,
+  UPCOMING_EVENT_DATA,
 } from "@/lib/constant/event";
 import {
   AddEventContestSchema,
   AddEventSchema,
   defaultValues,
-  defaulValuesAddEvent,
+  defaultValuesAddEvent,
 } from "@/schema/event";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -67,7 +67,7 @@ const Event = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(AddEventSchema),
-    defaultValues: defaulValuesAddEvent,
+    defaultValues: defaultValuesAddEvent,
   });
 
   console.log(location.pathname.includes(addEventRoute));
@@ -105,11 +105,11 @@ const Event = () => {
     <div className="h-full">
       <Toaster position="top-right" richColors />
       {location.pathname.includes(addEventRoute) && (
-        <CardWrap title="Add Event" info="Event Info" fields={fields}>
+        <CardWrap title="Add Event" info="Event Info" fields={FIELD_EVENT}>
           <div className="flex w-full gap-2">
             <ActionForm
-              fields={fields}
-              fieldNames={fieldNames}
+              fields={FIELD_EVENT}
+              fieldNames={FIELD_NAME_EVENT}
               comboboxField={updatedAccountData ?? []}
               buttonText="Add Event"
               onSubmit={handleOnSubmitAddEvent}
@@ -139,7 +139,7 @@ const Event = () => {
                   </div>
                   <div className="space-y-2">
                     <div className="flex flex-col gap-2">
-                      {upcomingEventData.map((item, index) => (
+                      {UPCOMING_EVENT_DATA.map((item, index) => (
                         <div key={index} className="flex gap-2">
                           <h3 className="font-medium">{item.title}:</h3>
                           <p>{form.watch(item.fieldNames) as string}</p>
@@ -186,11 +186,11 @@ const Event = () => {
                       buttonSaveTitle="Save"
                       dialogTitle="Add Contest"
                       dialogDescription="Add Contest Info"
-                      dialogInputLabel={addContest}
+                      dialogInputLabel={ADD_CONTEST}
                       schema={AddEventContestSchema}
                       defaultValues={defaultValues}
-                      fieldNames={fieldNamesUpcomingEvent}
-                      comboboxField={comboboxInputEventType}
+                      fieldNames={FIELD_NAME_UPCOMING_EVENT}
+                      comboboxField={COMBOBOX_INPUT_EVENT_TYPE}
                       mutate={mutateAddContest}
                       showButton={true}
                       id={item.id}

@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountRequest;
-use App\Models\Account;
+use App\Models\Account\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 
 class AccountController extends Controller
@@ -37,7 +36,7 @@ class AccountController extends Controller
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-        
+
         $account->update($validated);
 
         return response()->json(['message' => 'Account update successfully'], 200);
@@ -84,7 +83,7 @@ class AccountController extends Controller
         ]);
         $account->update($validated);
 
-        return response()->json(['message' => 'Account edit succuess', 200]);
+        return response()->json(['message' => 'Account edit success', 200]);
     }
 
     /**

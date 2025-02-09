@@ -9,7 +9,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { navData } from "@/lib/constant/nav";
+import { NAV_DATA} from "@/lib/constant/nav";
 import { Link, useLocation } from "react-router-dom";
 import NavUser from "./NavUser";
 
@@ -22,7 +22,7 @@ const AppSidebar = ({ ...props }) => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className="gap-2">
-            {navData.map((item) => (
+            {NAV_DATA.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <span className="font-medium">{item.title}</span>

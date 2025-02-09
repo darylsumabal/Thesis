@@ -50,13 +50,28 @@ const Criteria = () => {
                     </div>
                   </div>
                   <div>
-                    <Link
-                      to={`contest/${item.contest_id}/${
-                        item.group_id
-                      }/${title.toLocaleLowerCase()}`}
-                    >
-                      <Button>View</Button>
-                    </Link>
+                    {SCORING_FIELDS.map(({ label, value }) => (
+                      <div key={label}>
+                        {value(item.contest) === "Multiple Round" && (
+                          <Link
+                            to={`contest/${item.contest_id}/${
+                              item.group_id
+                            }/${title.toLocaleLowerCase()}-multiple-round`}
+                          >
+                            <Button>View</Button>
+                          </Link>
+                        )}
+                        {value(item.contest) === "Point Based" && (
+                          <Link
+                            to={`contest/${item.contest_id}/${
+                              item.group_id
+                            }/${title.toLocaleLowerCase()}-point-based`}
+                          >
+                            <Button>View</Button>
+                          </Link>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </Card>

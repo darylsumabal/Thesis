@@ -6,7 +6,7 @@ import {
   useDestroyAccount,
   useEditAccount,
 } from "@/hooks/tanstack/account/account";
-import { editAccount, fieldEditAccount } from "@/lib/constant/account";
+import { EDIT_ACCOUNT, FIELD_EDIT_ACCOUNT } from "@/lib/constant/account";
 import { editAccountDefualtValue, editAccountSchema } from "@/schema/account";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { ColumnDef } from "@tanstack/react-table";
@@ -134,10 +134,10 @@ export const columns: ColumnDef<Account>[] = [
               buttonTitle="Edit"
               dialogTitle="Edit an account"
               dialogDescription="Account Info"
-              dialogInputLabel={editAccount}
+              dialogInputLabel={EDIT_ACCOUNT}
               schema={editAccountSchema}
               defaultValues={editAccountDefualtValue}
-              fieldNames={fieldEditAccount}
+              fieldNames={FIELD_EDIT_ACCOUNT}
               mutate={mutateEditAccount}
               open={isDialogOpen}
               handleClose={handleClose}

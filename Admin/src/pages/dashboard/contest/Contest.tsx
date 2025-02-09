@@ -19,13 +19,13 @@ import {
   useGetContest,
 } from "@/hooks/tanstack/contest/contest";
 import {
-  comboboxInput,
-  comboboxInputContest,
+  COMBOBOX_INPUT_PARTICIPANT,
+  COMBOBOX_INPUT_GENDER,
   CONTEST_FIELDS,
-  fieldNamesParticipant,
-  fieldNamesTeamsParticipant,
-  fieldsParticipant,
-  fieldTeamsParticipant,
+  FIELD_NAME_PARTICIPANT,
+  FIELD_NAME_TEAM_PARTICIPANT,
+  FIELD_PARTICIPANT_CONTEST,
+  FIELD_TEAM_PARTICIPANT,
 } from "@/lib/constant/contest";
 import { urlSrc } from "@/lib/helper-src";
 import useHandleOnSubmit from "@/hooks/utils/handleSubmit";
@@ -48,13 +48,13 @@ const Contest = () => {
 
   const [isOpen, setIsOpen] = useState<number | null>(null);
 
-  const [selectedValue, setSelectedValue] = useState("Participants");
+  const [selectedValue, setSelectedValue] = useState<string>("Participants");
 
   const { data } = useGetContest();
 
   const { mutateAsync: mutateAddParticipant } = useAddParticipant();
 
-  const { mutateAsync: mutateAddTeampParticipant } = useAddTeamParticipants();
+  const { mutateAsync: mutateAddTeamParticipant } = useAddTeamParticipants();
 
   const { mutateAsync: mutateDestroyContest } = useDestroyContest();
 
@@ -86,7 +86,7 @@ const Contest = () => {
   ) => {
     await handleOnSubmit({
       data: data,
-      mutationFn: mutateAddTeampParticipant,
+      mutationFn: mutateAddTeamParticipant,
       form: form,
       id: id ?? "",
     });
@@ -154,15 +154,15 @@ const Contest = () => {
                       <ActionCombobox
                         onSelect={(value) => setSelectedValue(value)}
                         values="Participants"
-                        data={comboboxInput}
+                        data={COMBOBOX_INPUT_PARTICIPANT}
                       />
                       <div className="grid gap-2 py-4">
                         {selectedValue === "Participants" && (
                           <ActionForm
                             buttonText="Save"
-                            comboboxField={comboboxInputContest}
-                            fieldNames={fieldNamesParticipant}
-                            fields={fieldsParticipant}
+                            comboboxField={COMBOBOX_INPUT_GENDER}
+                            fieldNames={FIELD_NAME_PARTICIPANT}
+                            fields={FIELD_PARTICIPANT_CONTEST}
                             form={form}
                             onSubmit={handleOnSubmitParticipant}
                             submitCombobox={isSubmit}
@@ -172,8 +172,8 @@ const Contest = () => {
                         {selectedValue === "Teams Participants" && (
                           <ActionForm
                             buttonText="Save"
-                            fieldNames={fieldNamesTeamsParticipant}
-                            fields={fieldTeamsParticipant}
+                            fieldNames={FIELD_NAME_TEAM_PARTICIPANT}
+                            fields={FIELD_TEAM_PARTICIPANT}
                             form={formTeam}
                             onSubmit={handleSubmitTeam}
                             fileInputRef={fileInputRef}

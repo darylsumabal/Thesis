@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  fieldNamesParticipant,
-  fieldsParticipant,
-  fieldTeamsParticipant,
-  fieldNamesTeamsParticipant,
+  FIELD_NAME_PARTICIPANT,
+  FIELD_PARTICIPANT,
+  FIELD_TEAM_PARTICIPANT,
+  FIELD_NAME_TEAM_PARTICIPANT,
 } from "@/lib/constant/participants";
 import {
   addParticipantSchema,
@@ -56,7 +56,7 @@ const Participant = () => {
       {location.pathname.substring(11).trim() === addParticipantRoute && (
         <CardWrap
           title="Add Participants"
-          info="Parcticipants"
+          info="Participants"
           children={
             <div>
               <Form {...formParticipant}>
@@ -64,12 +64,12 @@ const Participant = () => {
                   onSubmit={formParticipant.handleSubmit(onSubmitParticipant)}
                 >
                   <div className="grid w-full items-center gap-4">
-                    {fieldsParticipant.map((input, index) => (
+                    {FIELD_PARTICIPANT.map((input, index) => (
                       <FormField
                         key={index}
                         name={
-                          fieldNamesParticipant[
-                            input.label as keyof typeof fieldNamesParticipant
+                          FIELD_NAME_PARTICIPANT[
+                            input.label as keyof typeof FIELD_NAME_PARTICIPANT
                           ]
                         }
                         control={formParticipant.control}
@@ -117,12 +117,12 @@ const Participant = () => {
                   )}
                 >
                   <div className="grid w-full items-center gap-4">
-                    {fieldTeamsParticipant.map((input, index) => (
+                    {FIELD_TEAM_PARTICIPANT.map((input, index) => (
                       <FormField
                         key={index}
                         name={
-                          fieldNamesTeamsParticipant[
-                            input.label as keyof typeof fieldNamesTeamsParticipant
+                          FIELD_NAME_TEAM_PARTICIPANT[
+                            input.label as keyof typeof FIELD_NAME_TEAM_PARTICIPANT
                           ]
                         }
                         control={formTeamParticipant.control}

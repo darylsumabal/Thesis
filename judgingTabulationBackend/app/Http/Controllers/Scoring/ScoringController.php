@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Scoring;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
-use App\Models\AddContest;
-use App\Models\ContestJudges;
-use App\Models\Criteria;
-use App\Models\JudgesGroup;
-use App\Models\Scores;
+use App\Models\Contest\AddContest;
+use App\Models\Contest\ContestJudges;
+use App\Models\Criteria\Criteria;
+use App\Models\Judging\JudgesGroup;
+use App\Models\Scoring\MultipleBasedCriteria;
+use App\Models\Scoring\Scores;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,7 @@ class ScoringController extends Controller
         return response()->json(['contest' => $query], 200);
     }
 
-    public function store(Request $request, $contestId): JsonResponse
+    public function storePointBased(Request $request, $contestId): JsonResponse
     {
         $contest = AddContest::findOrFail($contestId);
 
@@ -114,5 +115,78 @@ class ScoringController extends Controller
 
 
         return response()->json(['message' => 'Judges added', 'criteria' => $contestCriteria], 201);
+    }
+
+
+    public function storeMultipleRound(Request $request, $contestId)
+    {
+
+        $contest = AddContest::findOrFail($contestId);
+
+        $request->validate([
+            'judges' => 'required|array',
+            'judges.*' => 'exists:accounts,id',
+        ]);
+
+        $groupId = uniqid();
+
+        $judgeId = $request->input('judges');
+  
+        $criteria = $request->input('multiple.criteria');
+
+
+        $contestJudges = collect($judgeId)->map(function ($judge) use ($groupId, $contest) {
+            return [
+                'group_id' => $groupId,
+                'judge_id' =>  $judge['id'],
+                'contest_id' => $contest->id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        })->toArray();
+
+
+
+        $judgesGroup = collect($judgeId)->map(function ($judge) use ($groupId, $contestId) {
+            return [
+                'contest_id' => $contestId,
+                'group_id' => $groupId,
+                'judges_id' => $judge['id'],
+                'is_finished' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        })->toArray();
+
+
+        $contestCriteria = collect($criteria)->map(function ($criterion) use ($groupId, $contest) {
+            $round = $criterion['round'];
+            return collect($criterion['criterion'])->map(function ($item) use ($groupId, $contest, $round) {
+                return [
+                    'contest_id' => $contest->id,
+                    'group_id' => $groupId,
+                    'round' => $round,
+                    'evaluation_criteria' => $item['evaluationCriterion'],
+                    'score' => $item['score'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            });
+        })->flatten(1)->toArray();
+
+
+        MultipleBasedCriteria::insert($contestCriteria);
+
+        ContestJudges::insert($contestJudges);
+
+        JudgesGroup::insert($judgesGroup);
+
+        Scores::create([
+            'group_id' => $groupId,
+            'contest_id' => $contest->id
+        ]);
+
+
+        return response()->json(['message' => 'added', 'criteria' => $contestCriteria], 201);
     }
 }

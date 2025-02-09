@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  useGetCriteria,
+  useGetPointBasedCriteria,
   useScoreJudging,
   useShowParticipants,
 } from "@/hooks/tanstack/criteria/criteria";
@@ -33,11 +33,12 @@ import { useParams } from "react-router-dom";
 
 const CriteriaJudging = () => {
   const [idParticipants, setIdParticipants] = useState<number | null>(null);
+
   const [disabled, setDisabled] = useState(true);
 
   const { contest_id, group_id } = useParams();
 
-  const { data: dataCriteria } = useGetCriteria(group_id ?? "");
+  const { data: dataCriteria } = useGetPointBasedCriteria(group_id ?? "");
 
   const { data: dataParticipants } = useShowParticipants(
     Number(contest_id) ?? null
@@ -60,7 +61,7 @@ const CriteriaJudging = () => {
           participant_id: Number(idParticipants) ?? null,
           contest_id: Number(contest_id) ?? null,
           group_id: group_id ?? "",
-          evaluationCriterion: item.evaluation_criteria,
+          evaluation_criteria: item.evaluation_criteria,
           score: 0,
         })) || [],
     },
@@ -75,13 +76,13 @@ const CriteriaJudging = () => {
         [idParticipants]: currentScores,
       };
       setParticipantScores(updatedScores);
-
+      console.log(updatedScores);
       const formattedScores = {
         criteria: Object.values(updatedScores).flatMap(
           (participant) => participant.criteria
         ),
       };
-      console.log(formattedScores);
+
       mutateAsync({ criteria: formattedScores });
     }
   };
@@ -105,8 +106,23 @@ const CriteriaJudging = () => {
     // }
   }, [idParticipants, participantScores]);
 
+  //  100       25        100      25
+  //(score x weight) + (score x weight)
   const totalScore = form.watch("criteria").reduce((sum, criterion) => {
-    return sum + (Number(criterion.score) || 0);
+    const score = Number(criterion.score) || 0;
+
+    const correspondingData = dataCriteria?.find((item) =>
+      item.criteria.some(
+        (i) => i.evaluation_criteria === criterion.evaluation_criteria
+      )
+    );
+
+    const weight =
+      (correspondingData?.criteria.find(
+        (i) => i.evaluation_criteria === criterion.evaluation_criteria
+      )?.score || 1) / 100;
+
+    return sum + score * weight;
   }, 0);
 
   const handleSelectParticipants = (id: number | null) => {
@@ -225,11 +241,11 @@ const CriteriaJudging = () => {
                                               min={0}
                                               // required
                                               disabled={disabled}
-                                              max={score.score}
+                                              max={100}
                                             />
                                           </div>
                                           <div className="w-10 font-medium text-base">
-                                            / {score.score}
+                                            X {score.score}
                                           </div>
                                         </div>
                                       </FormControl>

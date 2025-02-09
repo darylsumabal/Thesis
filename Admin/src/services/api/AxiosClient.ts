@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const axiosClient = axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
+  // baseURL: "http://192.168.1.6:8000/api/",
 });
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -27,4 +28,3 @@ axiosClient.interceptors.response.use(
     }
   }
 );
-

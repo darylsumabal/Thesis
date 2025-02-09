@@ -1,5 +1,6 @@
 import {
-  createCriteria,
+  createCriteriaMultipleRound,
+  createCriteriaPointBased,
   getJudges,
   getScoring,
   JudgesData,
@@ -7,7 +8,10 @@ import {
 } from "@/services/api/scoring/scoring";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { SCORINGDATA } from "../../../lib/constant/scoring";
+import {
+  ScoringDataMultipleRound,
+  ScoringDataPointBased,
+} from "../../../lib/constant/scoring";
 
 export const useGetScoring = (scoringType: string) => {
   return useQuery<Scoring[]>({
@@ -23,18 +27,34 @@ export const useShowJudges = () => {
   });
 };
 
-export const useAddCriteria = () => {
+export const useCreateCriteriaPointBased = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (paylaod: { id: number; data: SCORINGDATA }) =>
-      createCriteria(paylaod.id, paylaod.data),
+    mutationFn: (payload: { id: number; data: ScoringDataPointBased }) =>
+      createCriteriaPointBased(payload.id, payload.data),
     onSuccess: () => {
       toast.success("Criteria created successfully");
       queryClient.invalidateQueries({ queryKey: ["scoring"] });
     },
     onError: () => {
-      toast.error("An error occured");
+      toast.error("An error occurred");
+    },
+  });
+};
+
+export const useCreateCriteriaMultipleRound = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: { id: number; data: ScoringDataMultipleRound }) =>
+      createCriteriaMultipleRound(payload.id, payload.data),
+    onSuccess: () => {
+      toast.success("Criteria created successfully");
+      queryClient.invalidateQueries({ queryKey: ["scoring"] });
+    },
+    onError: () => {
+      toast.error("An error occurred");
     },
   });
 };

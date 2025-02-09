@@ -24,8 +24,15 @@ export const showResult = async (contest_id: number, group_id: string) => {
   const response = await axiosClient.get(
     `result/contest/${contest_id}/${group_id}`
   );
-  const { data } = response;
-  const { results } = data;
 
-  return results;
+  const { data } = response;
+
+  if (data.message) {
+    console.log("message ni");
+    return [];
+  } else {
+    const { results } = data;
+    console.log(results);
+    return results;
+  }
 };

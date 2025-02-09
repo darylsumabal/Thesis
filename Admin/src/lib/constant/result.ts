@@ -21,14 +21,14 @@ export const RESULT_FIELDS: ResultFields<Participant>[] = [
   },
 ];
 
-export const OVERALLSCORE_FIELDS: ResultFields<OverAllScore>[] = [
+export const OVERALL_SCORE_FIELDS: ResultFields<OverAllScore>[] = [
   {
     label: "Total Score",
-    value: (item) => item.score,
+    value: (item) => item?.score,
   },
 ];
 
-export const comboboxResultType: ComboboxData[] = [
+export const COMBOBOX_RESULT_TYPE: ComboboxData[] = [
   {
     label: "CARD",
     value: "CARD",

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\AddEventRequest;
-use App\Models\AddEvent;
+use App\Models\Event\AddEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

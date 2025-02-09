@@ -1,6 +1,6 @@
 import { Field } from "@/components/Card";
 
-export const fieldsParticipant: Field[] = [
+export const FIELD_PARTICIPANT: Field[] = [
   {
     label: "FIRST NAME",
     inputType: "text",
@@ -27,7 +27,7 @@ export const fieldsParticipant: Field[] = [
   },
 ];
 
-export const fieldNamesParticipant = {
+export const FIELD_NAME_PARTICIPANT = {
   "FIRST NAME": "firstName",
   "LAST NAME": "lastName",
   DESCRIPTION: "description",
@@ -36,7 +36,7 @@ export const fieldNamesParticipant = {
   IMAGE: "image",
 } as const;
 
-export const fieldTeamsParticipant: Field[] = [
+export const FIELD_TEAM_PARTICIPANT: Field[] = [
   {
     label: "TEAM NAME",
     inputType: "text",
@@ -51,7 +51,7 @@ export const fieldTeamsParticipant: Field[] = [
   },
 ];
 
-export const fieldNamesTeamsParticipant = {
+export const FIELD_NAME_TEAM_PARTICIPANT = {
   "TEAM NAME": "teamName",
   "TEAM DESCRIPTION": "teamDescription",
   "TEAM CAPTAIN": "teamCaptain",

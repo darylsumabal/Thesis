@@ -27,7 +27,7 @@ const Result = () => {
                     <img
                       src={`${urlSrc}${item.contest.contest_poster}`}
                       alt={`${urlSrc}${item.contest.contest_poster}`}
-                      className="h-96 w-full rounded-md borderborder-slate-950"
+                      className="h-96 w-full rounded-md border border-slate-950"
                     />
                   </div>
                   <div className="space-y-2">

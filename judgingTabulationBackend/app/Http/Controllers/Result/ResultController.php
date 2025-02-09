@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Result;
 
 use App\Http\Controllers\Controller;
-use App\Models\JudgesGroup;
-use App\Models\JudgingScores;
-use App\Models\OverallScore;
-use App\Models\Participant;
-use App\Models\ResultScores;
+use App\Models\Contest\ContestJudges;
+use App\Models\Criteria\Criteria;
+use App\Models\Judging\JudgesGroup;
+use App\Models\Judging\JudgingPointBase;
+use App\Models\Judging\PointBased;
+use App\Models\Result\OverallScore;
+use App\Models\Participant\Participant;
+use App\Models\Result\ResultScores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,33 +34,39 @@ class ResultController extends Controller
 
         if ($judgesGroup->isNotEmpty()) {
 
-            $participants = Participant::all();
+            $participants = Participant::where('contest_id', $contestId)->get();
 
-            $judgingScores = JudgingScores::where('contest_id', $contestId)->where('group_id', $groupId)->get();
+            $criteria = Criteria::where('contest_id', $contestId)->where('group_id', $groupId)->get();
 
+            $judgingScores = JudgingPointBase::where('contest_id', $contestId)->where('group_id', $groupId)->get();
+
+            $judgingContest = ContestJudges::where('contest_id', $contestId)->where('group_id', $groupId)->get();
 
             $results = [];
-
 
             foreach ($participants as $participant) {
 
                 $participantScores = $judgingScores->where('participant_id', $participant->id);
 
-
                 $evaluationCriteriaTotals = [];
+
+                $criteriaCount = $criteria->count();
+                $judgesCount =  $judgingContest->count();
+
+                $maxScore = ($criteriaCount * $judgesCount) * 100;
 
                 foreach ($participantScores as $score) {
                     $criterion = $score->evaluationCriterion;
-
                     if (!isset($evaluationCriteriaTotals[$criterion])) {
                         $evaluationCriteriaTotals[$criterion] = 0;
                     }
                     $evaluationCriteriaTotals[$criterion] += $score->score;
                 }
 
+
                 $totalSum = array_sum($evaluationCriteriaTotals);
-                $numberOfCriteria = count($evaluationCriteriaTotals);
-                $overallScore = $numberOfCriteria > 0 ? $totalSum / $numberOfCriteria : 0;
+
+                $overallScore = ($totalSum / $maxScore) * 100;
 
                 foreach ($evaluationCriteriaTotals as $criterion => $totalScore) {
 
@@ -108,9 +117,7 @@ class ResultController extends Controller
         return response()->json(['message' => 'Wait for the other judges to be done'], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         //

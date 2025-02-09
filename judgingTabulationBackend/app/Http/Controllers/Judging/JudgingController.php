@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Judging;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContestJudges;
-use App\Models\JudgesGroup;
-use App\Models\JudgingScores;
-use App\Models\Participant;
-use App\Models\Scores;
+use App\Models\Judging\JudgesGroup;
+use App\Models\Judging\JudgingMultipleRound;
+use App\Models\Judging\JudgingPointBase;
+use App\Models\Judging\PointBased;
+use App\Models\Participant\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,7 +36,7 @@ class JudgingController extends Controller
 
             $request->validate([
                 'criteria.*.contest_id' => 'required|integer',
-                'criteria.*.evaluationCriterion' => 'required|string',
+                'criteria.*.evaluation_criteria' => 'required|string',
                 'criteria.*.group_id' => 'required|string',
                 'criteria.*.judges_id' => 'required|integer',
                 'criteria.*.participant_id' => 'required|integer',
@@ -49,8 +50,44 @@ class JudgingController extends Controller
                 return $score;
             })->toArray();
 
-            JudgingScores::insert($createdScores);
+            JudgingPointBase::insert($createdScores);
 
+
+            return response()->json(['judging_scores' => $createdScores], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'message' => 'Failed to create judging scores'
+            ], 500);
+        }
+    }
+
+
+    public function storeMultiple(Request $request, $judgeId)
+    {
+
+        try {
+
+            JudgesGroup::where('judges_id', $judgeId)->update(['is_finished' => 1]);
+
+            $request->validate([
+                'criteria.*.contest_id' => 'required|integer',
+                'criteria.*.round' => 'required|integer',
+                'criteria.*.evaluation_criteria' => 'required|string',
+                'criteria.*.score' => 'required|numeric',
+                'criteria.*.group_id' => 'required|string',
+                'criteria.*.judges_id' => 'required|integer',
+                'criteria.*.participant_id' => 'required|integer',
+            ]);
+
+
+            $createdScores = collect($request->input('criteria'))->map(function ($score) {
+                $score['created_at'] = now();
+                $score['updated_at'] = now();
+                return $score;
+            })->toArray();
+
+            JudgingMultipleRound::insert($createdScores);
 
             return response()->json(['judging_scores' => $createdScores], 201);
         } catch (\Exception $e) {

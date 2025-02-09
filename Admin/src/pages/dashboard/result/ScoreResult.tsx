@@ -11,17 +11,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useShowResult } from "@/hooks/tanstack/result/result";
-import { images } from "@/lib/constant/images";
+import { IMAGES } from "@/lib/constant/images";
 import {
-  comboboxResultType,
-  OVERALLSCORE_FIELDS,
+  COMBOBOX_RESULT_TYPE,
+  OVERALL_SCORE_FIELDS,
   RESULT_FIELDS,
 } from "@/lib/constant/result";
 import { urlSrc } from "@/lib/helper-src";
 import {
   flexRender,
   getCoreRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -58,13 +58,13 @@ const ScoreResult = () => {
   const setMedal = (index: number) => {
     switch (index) {
       case 1:
-        return images.goldMedal;
+        return IMAGES.goldMedal;
       case 2:
-        return images.silverMedal;
+        return IMAGES.silverMedal;
       case 3:
-        return images.bronzeMedal;
+        return IMAGES.bronzeMedal;
       default:
-        return images.medal;
+        return IMAGES.medal;
     }
   };
 
@@ -81,7 +81,7 @@ const ScoreResult = () => {
         <ActionCombobox
           onSelect={(value) => setSelectedValue(value)}
           values="CARD"
-          data={comboboxResultType}
+          data={COMBOBOX_RESULT_TYPE}
         />
       </div>
       <ScrollArea className="h-[calc(100vh-12rem)]">
@@ -114,7 +114,7 @@ const ScoreResult = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="flex flex-col gap-2 ">
+                    {/* <div className="flex flex-col gap-2 ">
                       {Object.entries(item.total_scores).map(
                         ([criteria, score]) => (
                           <div className="flex gap-2" key={criteria}>
@@ -125,9 +125,9 @@ const ScoreResult = () => {
                           </div>
                         )
                       )}
-                    </div>
+                    </div> */}
                     <div className="flex flex-col gap-2 ">
-                      {OVERALLSCORE_FIELDS.map(({ label, value }) => (
+                      {OVERALL_SCORE_FIELDS.map(({ label, value }) => (
                         <div className="flex gap-2" key={label}>
                           <h3 className="font-medium">{label}:</h3>
                           <p>{value(item.overall_scores)}</p>

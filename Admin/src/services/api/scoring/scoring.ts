@@ -1,5 +1,8 @@
 import { axiosClient } from "../AxiosClient";
-import { SCORINGDATA } from "../../../lib/constant/scoring";
+import {
+  ScoringDataPointBased,
+  ScoringDataMultipleRound,
+} from "../../../lib/constant/scoring";
 
 export type Scoring = {
   id: number;
@@ -37,6 +40,22 @@ export const getJudges = async () => {
   return judges;
 };
 
-export const createCriteria = async (id: number, data: SCORINGDATA) => {
-  return await axiosClient.post(`/contest/${id}/create-criteria`, data);
+export const createCriteriaPointBased = async (
+  id: number,
+  data: ScoringDataPointBased
+) => {
+  return await axiosClient.post(
+    `/contest/${id}/create-criteria/point-based`,
+    data
+  );
+};
+
+export const createCriteriaMultipleRound = async (
+  id: number,
+  data: ScoringDataMultipleRound
+) => {
+  return await axiosClient.post(
+    `/contest/${id}/create-criteria/multiple-round`,
+    data
+  );
 };

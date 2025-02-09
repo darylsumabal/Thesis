@@ -1,16 +1,16 @@
-type Test = {
+type Label = {
   title: string;
   url: string;
 };
 
 type NavItem = {
   title: string;
-  items: Test[];
+  items: Label[];
 };
 
 type NavData = NavItem[];
 
-export const navData: NavData = [
+export const NAV_DATA: NavData = [
   {
     title: "Account",
     items: [

@@ -21,6 +21,8 @@ return [
 
     'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:8000/')],
 
+    // 'allowed_origins' => [env('FRONTEND_URL'), env('FRONTEND_URL_SECONDARY'), 'http://localhost:8000/'],
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],

@@ -49,15 +49,24 @@ Route::post('/contest/{id}', [ContestController::class, 'destroy']);
 // get contest based on scoring type
 Route::get('/scoring', [ScoringController::class, 'index']);
 
-Route::post('/contest/{contestId}/create-criteria', [ScoringController::class, 'store']);
+Route::post('/contest/{contestId}/create-criteria/point-based', [ScoringController::class, 'storePointBased']);
+
+Route::post('/contest/{contestId}/create-criteria/multiple-round', [ScoringController::class, 'storeMultipleRound']);
+
 
 Route::get('contest/criteria-list/scores', [CriteriaController::class, 'indexScoresCriteria']);
 
-Route::get('contest/{groupId}/scores', [CriteriaController::class, 'getScores']);
+Route::get('contest/{groupId}/scores', [CriteriaController::class, 'getScoresPointBased']);
+
+Route::get('contest/{groupId}/scores/multiple-round', [CriteriaController::class, 'getScoresMultipleRound']);
+
+Route::put('criteria/{id}/edit/multiple-round', [CriteriaController::class, 'updateMultiple']);
 
 Route::get('criteria/contest/{contestId}/judging-score', [JudgingController::class, 'index']);
 
 Route::post('criteria/judge/{judgeId}/judging-scores', [JudgingController::class, 'store']);
+
+Route::post('criteria/judge/{judgeId}/judging-score/multiple-based', [JudgingController::class, 'storeMultiple']);
 
 Route::get('result/contest/{contestId}/{groupId}', [ResultController::class, 'index']);
 

@@ -3,7 +3,7 @@ import silverMedal from "../../assets/silver_medal.png";
 import bronzeMedal from "../../assets/bronze_medal.png";
 import medal from "../../assets/medal.png";
 
-export const images = {
+export const IMAGES = {
   goldMedal: goldMedal,
   silverMedal: silverMedal,
   bronzeMedal: bronzeMedal,

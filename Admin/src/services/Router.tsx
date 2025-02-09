@@ -14,9 +14,10 @@ import CreateScoring from "@/pages/dashboard/scoring/CreateScoring";
 import CriteriaJudging from "@/pages/dashboard/criteria/CriteriaJudging";
 import Result from "@/pages/dashboard/result/Result";
 import ScoreResult from "@/pages/dashboard/result/ScoreResult";
-import ViewCriteriaList from "@/pages/dashboard/criteria/ViewCriteriaList";
-import MultipleRoundScoring from "@/pages/dashboard/scoring/MultipleRoundScoring";
-import MutipleScoring from "@/pages/dashboard/scoring/MultipleScoring";
+import ViewPointBased from "@/pages/dashboard/criteria/Score/ViewPointBased";
+import MultipleScoring from "@/pages/dashboard/scoring/MultipleScoring";
+import ViewMultipleRound from "@/pages/dashboard/criteria/Multiple/ViewMultipleRound";
+import JudgingMultiple from "@/pages/dashboard/criteria/Multiple/JudgingMultiple";
 
 export const router = createBrowserRouter(
   [
@@ -96,7 +97,7 @@ export const router = createBrowserRouter(
               children: [
                 {
                   path: "contest/:id/create-criteria",
-                  element: <MutipleScoring />,
+                  element: <MultipleScoring />,
                 },
               ],
             },
@@ -109,8 +110,12 @@ export const router = createBrowserRouter(
               element: <Criteria />,
               children: [
                 {
-                  path: "contest/:contest_id/:group_id/judging",
+                  path: "contest/:contest_id/:group_id/judging-point-based",
                   element: <CriteriaJudging />,
+                },
+                {
+                  path: "contest/:contest_id/:group_id/judging-multiple-round",
+                  element: <JudgingMultiple  />,
                 },
               ],
             },
@@ -119,8 +124,12 @@ export const router = createBrowserRouter(
               element: <Criteria />,
               children: [
                 {
-                  path: "contest/:contest_id/:group_id/criteria",
-                  element: <ViewCriteriaList />,
+                  path: "contest/:contest_id/:group_id/criteria-multiple-round",
+                  element: <ViewMultipleRound />,
+                },
+                {
+                  path: "contest/:contest_id/:group_id/criteria-point-based",
+                  element: <ViewPointBased />,
                 },
               ],
             },

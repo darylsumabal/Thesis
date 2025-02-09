@@ -1,7 +1,7 @@
 import { Field } from "@/components/Card";
 import { ComboboxData } from "@/components/Combobox";
 
-export const addAccount: Field[] = [
+export const ADD_ACCOUNT: Field[] = [
   {
     label: "NAME",
     inputType: "text",
@@ -24,7 +24,7 @@ export const addAccount: Field[] = [
   },
 ];
 
-export const editAccount: Field[] = [
+export const EDIT_ACCOUNT: Field[] = [
   {
     label: "PASSWORD",
     inputType: "password",
@@ -35,12 +35,12 @@ export const editAccount: Field[] = [
   },
 ];
 
-export const fieldEditAccount = {
+export const FIELD_EDIT_ACCOUNT = {
   PASSWORD: "password",
   "PASSWORD CONFIRMATION": "password_confirmation",
 } as const;
 
-export const fieldNameAddAccount = {
+export const FIELD_NAME_ADD_ACCOUNT = {
   NAME: "name",
   EMAIL: "email",
   "ACCOUNT TYPE": "accountType",
@@ -48,7 +48,7 @@ export const fieldNameAddAccount = {
   "PASSWORD CONFIRMATION": "password_confirmation",
 } as const;
 
-export const comboboxInputAccountType: ComboboxData[] = [
+export const COMBOBOX_INPUT_ACCOUNT_TYPE: ComboboxData[] = [
   {
     label: "SELECT",
     value: "",

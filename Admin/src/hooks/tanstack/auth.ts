@@ -23,7 +23,7 @@ export const useLogin = () => {
       toast.success("Login success!");
     },
     onError: () => {
-      toast.error("An error occured!");
+      toast.error("An error occurred!");
     },
   });
 };
@@ -40,7 +40,7 @@ export const useRegister = () => {
       toast.success("Register success!");
     },
     onError: () => {
-      toast.error("An error occured!");
+      toast.error("An error occurred!");
     },
   });
 };
@@ -56,7 +56,7 @@ export const useLogOut = () => {
       queryClient.clear();
     },
     onError: () => {
-      toast.error("An error occured!");
+      toast.error("An error occurred!");
     },
   });
 };

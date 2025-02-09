@@ -47,6 +47,7 @@ type ScoringField<T, R = string> = {
   value: (item: T) => R;
 };
 
+
 export const SCORING_FIELDS: ScoringField<Scoring>[] = [
   {
     label: "Contest Name",
@@ -57,31 +58,46 @@ export const SCORING_FIELDS: ScoringField<Scoring>[] = [
     value: (item) => item.contest_description,
   },
   {
-    label: "Head Oraganizer",
+    label: "Head Organizer",
     value: (item) => item.event.organizer,
   },
   {
     label: "Contest Venue",
     value: (item) => item.contest_venue,
   },
+  {
+    label: "Scoring Type",
+    value: (item) => item.contest_scoring_type,
+  },
 ];
 
-type CRITERIA = {
+type Criteria = {
   evaluationCriterion: string;
   score: number;
 };
 
-type JUDGES = {
+type Judges = {
   id: number;
 };
 
-export type SCORINGDATA = {
-  criteria: CRITERIA[];
-  judges: JUDGES[];
+export type ScoringDataPointBased = {
+  criteria: Criteria[];
+  judges: Judges[];
 };
 
+type RoundCriteria = {
+  round: number;
+  criterion: Criteria[];
+};
 
+type Multiple = {
+  criteria: RoundCriteria[];
+};
 
+export type ScoringDataMultipleRound = {
+  judges: Judges[];
+  multiple: Multiple;
+};
 
 // const updatedJudges = selectedJudges.includes(value)
 //   ? selectedJudges.filter((item) => item !== value)

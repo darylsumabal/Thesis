@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Contest;
 
+use App\Models\Account\Account;
+use App\Models\Contest\AddContest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Contest\ParticipantRequest;
 use App\Http\Requests\Contest\TeamParticipantRequest;
-use App\Models\Account;
-use App\Models\AddContest;
-use App\Models\Participant;
-use App\Models\TeamParticipant;
+use App\Models\Participant\Participant;
+use App\Models\Participant\TeamParticipant;
 
 class ContestController extends Controller
 {

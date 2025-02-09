@@ -22,7 +22,7 @@ export const useAddAccount = () => {
       toast.success("Account created successfully!");
     },
     onError: () => {
-      toast.error("An error occured!");
+      toast.error("An error occurred!");
     },
   });
 };

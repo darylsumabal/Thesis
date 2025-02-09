@@ -64,7 +64,7 @@ export const CONTEST_FIELDS: ContestFields<Contest>[] = [
 //   },
 // ];
 
-export const comboboxInputContest: ComboboxData[] = [
+export const COMBOBOX_INPUT_GENDER: ComboboxData[] = [
   {
     label: "SELECT",
     value: "",
@@ -139,7 +139,7 @@ export const contestListData: ContestCardType[] = [
   },
 ];
 
-export const fieldsParticipant: Field[] = [
+export const FIELD_PARTICIPANT_CONTEST: Field[] = [
   {
     label: "FIRST NAME",
     inputType: "text",
@@ -166,7 +166,7 @@ export const fieldsParticipant: Field[] = [
   },
 ];
 
-export const fieldNamesParticipant = {
+export const FIELD_NAME_PARTICIPANT = {
   "FIRST NAME": "first_name",
   "LAST NAME": "last_name",
   DESCRIPTION: "description",
@@ -175,7 +175,7 @@ export const fieldNamesParticipant = {
   IMAGE: "poster_url",
 } as const;
 
-export const fieldTeamsParticipant: Field[] = [
+export const FIELD_TEAM_PARTICIPANT: Field[] = [
   {
     label: "TEAM NAME",
     inputType: "text",
@@ -194,14 +194,16 @@ export const fieldTeamsParticipant: Field[] = [
   },
 ];
 
-export const fieldNamesTeamsParticipant = {
+
+
+export const FIELD_NAME_TEAM_PARTICIPANT = {
   "TEAM NAME": "team_name",
   "TEAM DESCRIPTION": "team_description",
   "TEAM CAPTAIN": "team_captain",
   IMAGE: "poster_url",
 } as const;
 
-export const comboboxInput: ComboboxData[] = [
+export const COMBOBOX_INPUT_PARTICIPANT: ComboboxData[] = [
   {
     value: "Participants",
     label: "Add Participants",

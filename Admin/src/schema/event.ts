@@ -74,7 +74,7 @@ type DefaultValuesAddEvent = {
   poster: File | null;
 };
 
-export const defaulValuesAddEvent: DefaultValuesAddEvent = {
+export const defaultValuesAddEvent: DefaultValuesAddEvent = {
   name: "",
   description: "",
   date: "",

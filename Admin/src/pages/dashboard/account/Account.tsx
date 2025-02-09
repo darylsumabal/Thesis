@@ -20,9 +20,9 @@ import {
   useShowAccount,
 } from "@/hooks/tanstack/account/account";
 import {
-  addAccount,
-  comboboxInputAccountType,
-  fieldNameAddAccount,
+  ADD_ACCOUNT,
+  COMBOBOX_INPUT_ACCOUNT_TYPE,
+  FIELD_NAME_ADD_ACCOUNT,
 } from "@/lib/constant/account";
 import { addAccountSchema, defaultValues } from "@/schema/account";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
@@ -120,11 +120,11 @@ const Account = () => {
                 buttonTitle="Add Account"
                 dialogTitle="Create an account"
                 dialogDescription="Account Info"
-                dialogInputLabel={addAccount}
+                dialogInputLabel={ADD_ACCOUNT}
                 schema={addAccountSchema}
                 defaultValues={defaultValues}
-                comboboxField={comboboxInputAccountType}
-                fieldNames={fieldNameAddAccount}
+                comboboxField={COMBOBOX_INPUT_ACCOUNT_TYPE}
+                fieldNames={FIELD_NAME_ADD_ACCOUNT}
                 mutate={createAccount}
                 showButton={true}
               />

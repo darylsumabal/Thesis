@@ -30,8 +30,8 @@ export const EVENTS_FIELDS: EventFields<Events>[] = [
     value: (item) => item.venue,
   },
 ];
-
-export const fields: Field[] = [
+// FIELDS
+export const FIELD_EVENT: Field[] = [
   {
     label: "EVENT TITLE/NAME",
     inputType: "text",
@@ -57,8 +57,8 @@ export const fields: Field[] = [
     inputType: "file",
   },
 ];
-
-export const fieldNames = {
+// fieldNames
+export const FIELD_NAME_EVENT = {
   "EVENT TITLE/NAME": "name",
   DESCRIPTION: "description",
   "DATE TO START EVENT": "date",
@@ -82,7 +82,7 @@ export type EventData = {
   fieldNames: keyof FormValues;
 };
 
-export const upcomingEventData: EventData[] = [
+export const UPCOMING_EVENT_DATA: EventData[] = [
   {
     title: "Event Name/Title",
     description: "International Event",
@@ -110,7 +110,7 @@ export const upcomingEventData: EventData[] = [
   },
 ];
 
-export const fieldNamesUpcomingEvent = {
+export const FIELD_NAME_UPCOMING_EVENT = {
   "CONTEST TITLE/NAME": "contest_name",
   DESCRIPTION: "contest_description",
   "SELECT TYPE OF SCORING": "contest_scoring_type",
@@ -118,7 +118,7 @@ export const fieldNamesUpcomingEvent = {
   POSTER: "contest_poster",
 } as const;
 
-export const addContest: Field[] = [
+export const ADD_CONTEST: Field[] = [
   {
     label: "CONTEST TITLE/NAME",
     inputType: "text",
@@ -149,7 +149,7 @@ export const addContest: Field[] = [
   },
 ];
 
-export const comboboxInputEventType: ComboboxData[] = [
+export const COMBOBOX_INPUT_EVENT_TYPE: ComboboxData[] = [
   {
     label: "SELECT",
     value: "",
@@ -158,10 +158,10 @@ export const comboboxInputEventType: ComboboxData[] = [
     label: "Point Based",
     value: "Point Based",
   },
-  {
-    label: "Rankend Based",
-    value: "Rankend Based",
-  },
+  // {
+  //   label: "Ranked Based",
+  //   value: "Ranked Based",
+  // },
   {
     label: "Multiple Round",
     value: "Multiple Round",

@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
-  useAddCriteria,
+  useCreateCriteriaMultipleRound,
   useShowJudges,
 } from "@/hooks/tanstack/scoring/scoring";
 import { MultipleRound, Schema } from "@/schema/scoring";
@@ -42,13 +42,13 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useLocation, useParams } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 
-
 const MultipleScoring = () => {
   const [selectedJudges, setSelectedJudges] = useState<string[]>([]);
   const [addedJudges, setAddedJudges] = useState<string[]>([]);
   const [judgesId, setJudgesId] = useState<number[]>([]);
-
-  const { mutateAsync } = useAddCriteria();
+  const [criteria, setCriteria] = useState<number>(0);
+  const [add, setAdd] = useState([]);
+  const { mutateAsync } = useCreateCriteriaMultipleRound();
 
   const params = useParams();
 
@@ -57,6 +57,7 @@ const MultipleScoring = () => {
   const form = useForm<MultipleRound>({
     resolver: zodResolver(Schema),
     defaultValues: {
+      judges: [],
       multiple: {
         criteria: [
           {
@@ -65,7 +66,6 @@ const MultipleScoring = () => {
           },
         ],
       },
-      judges: [],
     },
   });
 
@@ -83,19 +83,33 @@ const MultipleScoring = () => {
     )
     .join(" ");
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "multiple.criteria.0.criterion",
-  });
-
   const {
     fields: fieldRound,
     append: appendRound,
     remove: removeRound,
   } = useFieldArray({
     control: form.control,
-    name: "multiple.criteria",
+    name: `multiple.criteria`,
   });
+
+  console.log("round", fieldRound);
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: `multiple.criteria.0.criterion`,
+  });
+
+  console.log("fields", fields);
+
+  const handleAddRow = (index: number) => {
+    setCriteria(index);
+    append({
+      evaluationCriterion: "",
+      score: 0,
+    });
+
+    console.log(index);
+  };
 
   const handleWatchScore = (idx: number) => {
     const totalScore = form
@@ -110,7 +124,6 @@ const MultipleScoring = () => {
   const onSubmit = async (data: MultipleRound) => {
     console.log(data);
     const judge = data.judges.length === 0;
-    console.log("judges ni daryl", judge);
     const invalidRounds = data.multiple.criteria.some((_round, idx) => {
       const totalScore = handleWatchScore(idx);
       return totalScore !== 100;
@@ -122,6 +135,8 @@ const MultipleScoring = () => {
     } else if (judge) {
       toast.error("Please add a judges!");
       return;
+    } else {
+      await mutateAsync({ id: Number(params.id), data: data });
     }
   };
 
@@ -235,8 +250,8 @@ const MultipleScoring = () => {
                 </div>
               </Card>
 
-              {fieldRound.map((_, idx) => (
-                <Card className="p-2 border-2" key={idx}>
+              {fieldRound.map((a, idx) => (
+                <Card className="p-2 border-2" key={a.id}>
                   <form onSubmit={form.handleSubmit(onSubmit)}>
                     {fieldRound.length > 1 && idx > 0 && (
                       <Button
@@ -262,6 +277,8 @@ const MultipleScoring = () => {
                           {fields.map((field, index) => (
                             <TableRow key={field.id}>
                               <TableCell>
+                                {idx}
+                                {index}
                                 <FormField
                                   control={form.control}
                                   name={`multiple.criteria.${idx}.criterion.${index}.evaluationCriterion`}
@@ -323,13 +340,9 @@ const MultipleScoring = () => {
                           variant="outline"
                           type="button"
                           size="sm"
-                          onClick={() =>
-                            append({
-                              evaluationCriterion: "",
-                              score: 0,
-                            })
-                          }
+                          onClick={() => handleAddRow(idx)}
                         >
+                          {idx + 1}
                           Add Row
                         </Button>
                         <Button
@@ -363,3 +376,124 @@ const MultipleScoring = () => {
 };
 
 export default MultipleScoring;
+{
+  /* <Card className="p-2 border-2" key={idx}>
+<form onSubmit={form.handleSubmit(onSubmit)}>
+  {fieldRound.length > 1 && idx > 0 && (
+    <Button
+      className="text-xs"
+      size={"sm"}
+      type="button"
+      onClick={() => removeRound(fieldRound.length - 1)}
+    >
+      Remove Round
+    </Button>
+  )}
+
+  <div>Round {idx + 1}</div>
+  <div className="rounded-md border">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Evaluation Criterion</TableHead>
+          <TableHead>Score</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {fields.map((field, index) => (
+          <TableRow key={field.id}>
+            <TableCell>
+              {idx}
+              {index}
+              <FormField
+                control={form.control}
+                name={`multiple.criteria.${idx}.criterion.${index}.evaluationCriterion`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        value={field.value ?? ""}
+                        placeholder="Enter criterion"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </TableCell>
+            <TableCell>
+              <FormField
+                control={form.control}
+                name={`multiple.criteria.${idx}.criterion.${index}.score`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="number"
+                        value={field.value || ""}
+                        placeholder="Enter score"
+                        onChange={(e) =>
+                          field.onChange(
+                            Number(e.target.value)
+                          )
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell>Total</TableCell>
+          <TableCell className="text-right">
+            {handleWatchScore(idx)}/100
+          </TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  </div>
+
+  <div className="flex items-center justify-between space-x-2 py-4">
+    <div className="space-x-2">
+      <Button
+        variant="outline"
+        type="button"
+        size="sm"
+        onClick={() =>
+          append({
+            evaluationCriterion: "",
+            score: 0,
+          })
+        }
+      >
+        Add Row
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        type="button"
+        onClick={() =>
+          fields.length > 1 && remove(fields.length - 1)
+        }
+      >
+        Delete Row
+      </Button>
+    </div>
+    <div>
+      {idx === fieldRound.length - 1 && (
+        <Button variant="default" type="submit" size="sm">
+          Create Criteria
+        </Button>
+      )}
+    </div>
+  </div>
+</form>
+</Card> */
+}
