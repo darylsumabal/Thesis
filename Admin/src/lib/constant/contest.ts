@@ -121,7 +121,7 @@ export const contestListData: ContestCardType[] = [
       },
       {
         label: "Description",
-        description: "To showcase talent and sportmanship ",
+        description: "To showcase talent and sportmanship",
       },
       {
         label: "Type of scoring",

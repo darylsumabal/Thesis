@@ -47,7 +47,7 @@ const ActionForm = <TSchema extends z.ZodType>({
   onSubmit,
   submitCombobox,
 }: FormProps<TSchema>) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <Form {...form}>

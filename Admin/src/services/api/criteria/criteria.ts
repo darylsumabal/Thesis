@@ -1,4 +1,5 @@
 import { axiosClient } from "@/services/api/AxiosClient";
+import { Contest } from "../contest/contest";
 
 export type Criterion = {
   id: string;
@@ -15,7 +16,7 @@ type Criteria = {
   round: number;
 };
 
-export type a = {
+type MultipleCriterion = {
   round: number;
   criteria: Criteria[];
 };
@@ -27,20 +28,6 @@ type Judges = {
   contest_id: number;
 };
 
-type Contest = {
-  id: number;
-  contest_name: string;
-  contest_description: string;
-  contest_scoring_type: string;
-  contest_venue: string;
-  contest_poster: string;
-  event_id: number;
-  event: {
-    name: string;
-    organizer: string;
-  };
-};
-
 export interface CriteriaInfo {
   id: number;
   contest_id: number;
@@ -49,19 +36,47 @@ export interface CriteriaInfo {
   contest: Contest;
 }
 
+type Score = {
+  judges_id: number | null;
+  contest_id: number | null;
+  group_id: string;
+  evaluation_criteria: string;
+  score: number;
+  round?: number;
+};
+
+export type MultipleScore = {
+  criteria: Score[];
+};
+
+export type JudgingScore = {
+  criteria: Score[];
+};
+
+// export type Participants = {
+//   id: number | null;
+//   first_name: number | null;
+//   last_name: string;
+//   description: string;
+//   age: string;
+//   gender: string;
+//   poster_url: string;
+//   contest_id: number;
+// };
+
 export interface PointBasedCriteria extends CriteriaInfo {
   criteria: Criterion[];
 }
 
 export interface MultipleRoundCriteria extends CriteriaInfo {
-  criteriaMultipleRound: a[];
+  criteriaMultipleRound: MultipleCriterion[];
 }
 
 export const getPointBasedCriteria = async (group_id: string) => {
   const response = await axiosClient.get(`/contest/${group_id}/scores`);
   const { data } = response;
   const { scores } = data;
- 
+
   return scores;
 };
 
@@ -81,35 +96,7 @@ export const showScoreCriteria = async () => {
   return criteria_list;
 };
 
-type Score = {
-  judges_id: number | null;
-  contest_id: number | null;
-  group_id: string;
-  evaluation_criteria: string;
-  score: number;
-  round?: number;
-};
-
-export type MultipleScore = {
-  criteria: Score[];
-};
-
-export type judgingScore = {
-  criteria: Score[];
-};
-
-export type Participants = {
-  id: number | null;
-  first_name: number | null;
-  last_name: string;
-  description: string;
-  age: string;
-  gender: string;
-  poster_url: string;
-  contest_id: number;
-};
-
-export const addScoreJudging = async (data: judgingScore, judgeId: number) => {
+export const addScoreJudging = async (data: JudgingScore, judgeId: number) => {
   return await axiosClient.post(
     `/criteria/judge/${judgeId}/judging-scores`,
     data

@@ -1,7 +1,7 @@
 import { axiosClient } from "../AxiosClient";
 
 export type Participant = {
-  id: string;
+  id: number;
   age: string;
   first_name: string;
   last_name: string;

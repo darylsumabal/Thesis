@@ -26,7 +26,7 @@ export const useAddParticipant = () => {
       toast.success("Participant Added");
     },
     onError: () => {
-      toast.error("An error occured");
+      toast.error("An error occurred");
     },
   });
 };
@@ -42,7 +42,7 @@ export const useAddTeamParticipants = () => {
       toast.success("Team Participant Added");
     },
     onError: () => {
-      toast.error("An error occured");
+      toast.error("An error occurred");
     },
   });
 };

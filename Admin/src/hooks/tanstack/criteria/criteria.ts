@@ -6,14 +6,14 @@ import {
   editMultipleBasedCriteria,
   getMultipleBasedCriteria,
   getPointBasedCriteria,
-  judgingScore,
+  JudgingScore,
   MultipleRoundCriteria,
   MultipleScore,
-  Participants,
   PointBasedCriteria,
   showParticipant,
   showScoreCriteria,
 } from "@/services/api/criteria/criteria";
+import { Participant } from "@/services/api/result/result";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { toast } from "sonner";
@@ -40,8 +40,8 @@ export const useShowScoreCriteria = () => {
 };
 
 export const useScoreJudging = (judgeId: number) => {
-  return useMutation<AxiosResponse<any>, Error, { criteria: judgingScore }>({
-    mutationFn: (payload: { criteria: judgingScore }) =>
+  return useMutation<AxiosResponse<any>, Error, { criteria: JudgingScore }>({
+    mutationFn: (payload: { criteria: JudgingScore }) =>
       addScoreJudging(payload.criteria, judgeId),
     onSuccess: () => {
       toast.success("successfully!");
@@ -62,8 +62,9 @@ export const useAddMultipleJudgingScore = (judgeId: number) => {
   });
 };
 
+
 export const useShowParticipants = (contest_id: number) => {
-  return useQuery<Participants[]>({
+  return useQuery<Participant[]>({
     queryKey: ["score", contest_id],
     queryFn: () => showParticipant(contest_id),
   });
