@@ -68,7 +68,9 @@ Route::post('criteria/judge/{judgeId}/judging-scores', [JudgingController::class
 
 Route::post('criteria/judge/{judgeId}/judging-score/multiple-based', [JudgingController::class, 'storeMultiple']);
 
-Route::get('result/contest/{contestId}/{groupId}', [ResultController::class, 'index']);
+Route::get('result/contest/{contestId}/{groupId}', [ResultController::class, 'indexPointBased']);
+
+Route::get('result/contest/multiple/{contestId}/{groupId}', [ResultController::class, 'indexMultipleBased']);
 
 Route::put('criteria/{id}/edit', [CriteriaController::class, 'update']);
 

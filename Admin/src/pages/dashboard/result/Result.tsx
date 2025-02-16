@@ -13,7 +13,7 @@ const Result = () => {
   const currentPath = location.pathname.substring(11).trim();
 
   const route = ["result/contest-result"];
-  console.log(data);
+
   return (
     <>
       <Toaster position="top-right" richColors />
@@ -42,7 +42,11 @@ const Result = () => {
                   </div>
                   <div>
                     <Link
-                      to={`result/${item.contest_id}/${item.group_id}/contest-result`}
+                      to={`${
+                        item.contest.contest_scoring_type
+                          .toLocaleLowerCase()
+                          .split(" ")[0]
+                      }/${item.contest_id}/${item.group_id}/contest-result`}
                     >
                       <Button>View</Button>
                     </Link>

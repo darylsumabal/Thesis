@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Contest\AddContest;
 use App\Models\Contest\ContestJudges;
-use App\Models\Criteria\Criteria;
+use App\Models\Criteria\PointBasedCriteria;
 use App\Models\Judging\JudgesGroup;
-use App\Models\Scoring\MultipleBasedCriteria;
+use App\Models\Criteria\MultipleBasedCriteria;
 use App\Models\Scoring\Scores;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -102,7 +102,7 @@ class ScoringController extends Controller
             ];
         })->toArray();
 
-        Criteria::insert($contestCriteria);
+        PointBasedCriteria::insert($contestCriteria);
 
         ContestJudges::insert($contestJudges);
 

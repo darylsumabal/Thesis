@@ -48,7 +48,7 @@ const CriteriaJudging = () => {
     [key: number]: PointBasedCriteria;
   }>({});
 
-  const a = 26;
+  const a = 16;
 
   const { mutateAsync } = useScoreJudging(a);
 
@@ -215,6 +215,7 @@ const CriteriaJudging = () => {
                           </div>
                         ))}
                       </TableCell>
+
                       <TableCell>
                         {dataCriteria?.map((item) => (
                           <div className="space-y-2" key={item.id}>
@@ -245,7 +246,7 @@ const CriteriaJudging = () => {
                                             />
                                           </div>
                                           <div className="w-10 font-medium text-base">
-                                            X {score.score}
+                                            / 100
                                           </div>
                                         </div>
                                       </FormControl>
@@ -272,9 +273,11 @@ const CriteriaJudging = () => {
               </div>
               <div className="flex justify-end space-x-2 py-4">
                 <div>
-                  <Button variant="default" type="submit" size="sm">
-                    Submit Score
-                  </Button>
+                  {!disabled && (
+                    <Button variant="default" type="submit" size="sm">
+                      Submit Score
+                    </Button>
+                  )}
                 </div>
               </div>
             </form>

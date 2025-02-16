@@ -4,7 +4,8 @@ namespace App\Models\Scoring;
 
 use App\Models\Contest\AddContest;
 use App\Models\Contest\ContestJudges;
-use App\Models\Criteria\Criteria;
+use App\Models\Criteria\MultipleBasedCriteria;
+use App\Models\Criteria\PointBasedCriteria;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,12 +19,12 @@ class Scores extends Model
 
     public function criteria(): HasMany
     {
-        return $this->hasMany(Criteria::class, 'group_id', 'group_id');
+        return $this->hasMany(PointBasedCriteria::class, 'group_id', 'group_id');
     }
 
     public function criteriaMultipleRound(): HasMany
     {
-        return $this->hasMany(MultipleBasedCriteria::class, 'group_id','group_id');
+        return $this->hasMany(MultipleBasedCriteria::class, 'group_id', 'group_id');
     }
 
     public function judges(): HasMany

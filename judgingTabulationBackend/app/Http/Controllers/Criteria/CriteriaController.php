@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Criteria;
 
 use App\Http\Controllers\Controller;
-use App\Models\Criteria\Criteria;
-use App\Models\Scoring\MultipleBasedCriteria;
+use App\Models\Criteria\PointBasedCriteria;
+use App\Models\Criteria\MultipleBasedCriteria;
 use App\Models\Scoring\Scores;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class CriteriaController extends Controller
         $scores = Scores::with(['contest.event'])->get();
 
         // $scores = Scores::with(['criteria', 'judges.judge', 'contest.event'])->get();
-        
+
         return response()->json(['criteria_list' => $scores], 200);
     }
 
@@ -55,7 +55,7 @@ class CriteriaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $criteria = Criteria::findOrFail($id);
+        $criteria = PointBasedCriteria::findOrFail($id);
 
         $validate = $request->validate([
             'evaluation_criteria' => 'string|required|min:1'

@@ -8,22 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Criteria extends Model
+class MultipleBasedCriteria extends Model
 {
-    protected  $fillable = [
+    protected $fillable = [
+        'contest_id',
         'group_id',
+        'round',
         'evaluation_criteria',
         'score',
-        'contest_id',
     ];
-
     public function contest(): BelongsTo
     {
         return $this->belongsTo(AddContest::class, 'contest_id');
     }
-
-    public function scores(): HasMany
+    public function scores():HasMany
     {
-        return $this->hasMany(Scores::class, 'group_id');
+        return $this->hasMany(Scores::class,'group_id');
     }
 }

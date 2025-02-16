@@ -45,7 +45,7 @@ const JudgingMultiple = () => {
   }>({});
 
   //judges id will use in judge dashboard fetch the ID
-  const a = 2;
+  const a = 16;
 
   const { mutateAsync } = useAddMultipleJudgingScore(a);
 
@@ -82,7 +82,6 @@ const JudgingMultiple = () => {
 
   const onSubmit = async () => {
     const currentScores = form.getValues();
-    console.log("ok");
     if (idParticipants) {
       const updatedScores = {
         ...participantScores,
@@ -111,13 +110,25 @@ const JudgingMultiple = () => {
     }
   }, [idParticipants, participantScores]);
 
-  const t = (index: number) => {
+  const totalScore = (index: number) => {
     const criteriaForRound =
       dataCriteria?.[0]?.criteriaMultipleRound[index]?.criteria || [];
+
     const totalScore = criteriaForRound.reduce((sum, _, criteriaIndex) => {
       const fieldIndex = getCriteriaIndex(index, criteriaIndex);
-      const score = form.watch(`criteria.${fieldIndex}.score`) || 0; // Watch for each score in the round
-      return sum + Number(score);
+      const score = Number(form.watch(`criteria.${fieldIndex}.score`)) || 0;
+
+      const correspondingData = dataCriteria?.[0]?.criteriaMultipleRound[
+        index
+      ]?.criteria.find(
+        (i) =>
+          i.evaluation_criteria ===
+          form.watch(`criteria.${fieldIndex}.evaluation_criteria`)
+      );
+
+      const weight = (correspondingData?.score || 1) / 100;
+
+      return sum + score * weight;
     }, 0);
 
     return totalScore;
@@ -209,7 +220,7 @@ const JudgingMultiple = () => {
                                             {criteria.evaluation_criteria}
                                           </div>
                                         </FormControl>
-                                        <FormMessage />
+                                        {/* <FormMessage /> */}
                                       </FormItem>
                                     )}
                                   />
@@ -237,15 +248,15 @@ const JudgingMultiple = () => {
                                                 min={0}
                                                 // required
                                                 disabled={disabled}
-                                                max={criteria.score}
+                                                max="100"
                                               />
                                             </div>
                                             <div className="w-10 font-medium text-base">
-                                              / {criteria.score}
+                                              / 100
                                             </div>
                                           </div>
                                         </FormControl>
-                                        <FormMessage className="" />
+                                        <FormMessage />
                                       </FormItem>
                                     )}
                                   />
@@ -258,7 +269,7 @@ const JudgingMultiple = () => {
                           <TableRow>
                             <TableCell>Total</TableCell>
                             <TableCell className="text-right">
-                              {t(ind)}/100
+                              {totalScore(ind)}/100
                             </TableCell>
                           </TableRow>
                         </TableFooter>
@@ -269,9 +280,11 @@ const JudgingMultiple = () => {
               </div>
               <div className="flex justify-end space-x-2 py-4">
                 <div>
-                  <Button variant="default" type="submit" size="sm">
-                    Submit Score
-                  </Button>
+                  {!disabled && (
+                    <Button variant="default" type="submit" size="sm">
+                      Submit Score
+                    </Button>
+                  )}
                 </div>
               </div>
             </form>

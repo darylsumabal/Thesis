@@ -1,18 +1,6 @@
 import CardWrap from "@/components/Card";
 import ActionCombobox from "@/components/Combobox";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -22,13 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useShowMultipleResult,
-  useShowResult,
-} from "@/hooks/tanstack/result/result";
+import { useShowMultipleResult } from "@/hooks/tanstack/result/result";
 import { IMAGES } from "@/lib/constant/images";
 import {
-  COMBOBOX_FILTER_CHART_TYPE,
   COMBOBOX_RESULT_TYPE,
   OVERALL_SCORE_FIELDS,
   RESULT_FIELDS,
@@ -41,45 +25,14 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 import { columns } from "./column";
 
-const chartData = [
-  { month: "Participant Name", desktop: 91 },
-  { month: "Participant Name", desktop: 95 },
-  { month: "Participant Name", desktop: 88 },
-  { month: "Participant Name", desktop: 89 },
-  { month: "Participant Name", desktop: 94 },
-  { month: "Participant Name", desktop: 91 },
-];
-
-const chartSortedData = chartData.sort((a, b) => a.desktop - b.desktop);
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
-
-const ScoreResult = () => {
+const ScoreResultMultiple = () => {
   const { contest_id, group_id } = useParams();
 
-  const { data } = useShowResult(Number(contest_id), group_id ?? "");
+  const { data } = useShowMultipleResult(Number(contest_id), group_id ?? "");
 
-  const { data: multipleData } = useShowMultipleResult(
-    Number(contest_id),
-    group_id ?? ""
-  );
-
-  const currentPath = location.pathname.substring(11).trim();
-
-  const route = "result/contest-result/point";
-
-  const isIncluded = currentPath.includes(route);
-
-  let test = data;
-  const dataCondition = isIncluded ? (test = data) : (test = multipleData);
+  console.log(data);
 
   const sortedData = data?.sort((a, b) => {
     const aScore = a.overall_scores ? parseFloat(a.overall_scores.score) : 0;
@@ -102,6 +55,8 @@ const ScoreResult = () => {
     }
   };
 
+  console.log(data);
+
   const setMedal = (index: number) => {
     switch (index) {
       case 1:
@@ -116,7 +71,7 @@ const ScoreResult = () => {
   };
 
   const table = useReactTable({
-    data: dataCondition ?? [],
+    data: data ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -161,7 +116,6 @@ const ScoreResult = () => {
                         </div>
                       ))}
                     </div>
-
                     {/* <div className="flex flex-col gap-2 ">
                       {Object.entries(item.total_scores).map(
                         ([criteria, score]) => (
@@ -243,54 +197,9 @@ const ScoreResult = () => {
             </Table>
           </div>
         )}
-        {selectedValue === "CHART" && (
-          <Card className="p-6 w-3/4 border-2">
-            <div className="w-32 mb-2">
-              {
-                // the function onSubmit props become optional remove it when it is finalize
-              }
-              <ActionCombobox values="CARD" data={COMBOBOX_FILTER_CHART_TYPE} />
-            </div>
-            <CardHeader>
-              <CardTitle>Bar Chart - Label</CardTitle>
-              <CardDescription>January - June 2024</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig}>
-                <BarChart
-                  accessibilityLayer
-                  data={chartSortedData}
-                  margin={{
-                    top: 20,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent hideLabel />}
-                  />
-                  <Bar dataKey="desktop" fill="black" radius={8}>
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-          </Card>
-        )}
       </ScrollArea>
     </CardWrap>
   );
 };
 
-export default ScoreResult;
+export default ScoreResultMultiple;

@@ -17,7 +17,7 @@ export type ComboboxData = {
 };
 
 type ComboboxProps = {
-  onSelect: (value: string) => void;
+  onSelect?: (value: string) => void;
   values: string;
   data: ComboboxData[];
   submit?: boolean;

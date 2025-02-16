@@ -36,3 +36,18 @@ export const showResult = async (contest_id: number, group_id: string) => {
     return results;
   }
 };
+
+export const showResultMultiple = async (
+  contest_id: number,
+  group_id: string
+) => {
+  const response = await axiosClient.get(
+    `result/contest/multiple/${contest_id}/${group_id}`
+  );
+
+  const { data } = response;
+
+  const { results } = data;
+  console.log(results);
+  return results;
+};

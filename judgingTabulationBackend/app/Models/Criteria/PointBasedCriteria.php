@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Models\Scoring;
+namespace App\Models\Criteria;
 
 use App\Models\Contest\AddContest;
+use App\Models\Scoring\Scores;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class MultipleBasedCriteria extends Model
+class PointBasedCriteria extends Model
 {
-    protected $fillable = [
-        'contest_id',
+    protected  $fillable = [
         'group_id',
-        'round',
         'evaluation_criteria',
         'score',
+        'contest_id',
     ];
+
     public function contest(): BelongsTo
     {
         return $this->belongsTo(AddContest::class, 'contest_id');
     }
-    public function scores():HasMany
+
+    public function scores(): HasMany
     {
-        return $this->hasMany(Scores::class,'group_id');
+        return $this->hasMany(Scores::class, 'group_id');
     }
 }

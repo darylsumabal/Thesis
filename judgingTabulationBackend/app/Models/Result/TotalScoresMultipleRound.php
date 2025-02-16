@@ -6,9 +6,8 @@ use App\Models\Participant\Participant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ResultScores extends Model
+class TotalScoresMultipleRound extends Model
 {
-    //
     protected $fillable = [
         'participant_id',
         'contest_id',
@@ -21,9 +20,4 @@ class ResultScores extends Model
     {
         return $this->belongsTo(Participant::class,);
     }
-
-    // public function participant():BelongsTo
-    // {
-    //     return $this->belongsTo(Participant::class, 'participant_id');
-    // }
 }

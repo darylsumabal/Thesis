@@ -37,6 +37,25 @@ export const COMBOBOX_RESULT_TYPE: ComboboxData[] = [
     label: "TABLE",
     value: "TABLE",
   },
+  {
+    label: "CHART",
+    value: "CHART",
+  },
+];
+
+export const COMBOBOX_FILTER_CHART_TYPE: ComboboxData[] = [
+  {
+    label: "CRITERIA 1",
+    value: "CRITERIA 1",
+  },
+  {
+    label: "CRITERIA 2",
+    value: "CRITERIA 2",
+  },
+  {
+    label: "CRITERIA 3",
+    value: "CRITERIA 3",
+  },
 ];
 
 {

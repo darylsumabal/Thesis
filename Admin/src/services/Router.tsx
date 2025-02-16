@@ -18,6 +18,7 @@ import ViewPointBased from "@/pages/dashboard/criteria/Score/ViewPointBased";
 import MultipleScoring from "@/pages/dashboard/scoring/MultipleScoring";
 import ViewMultipleRound from "@/pages/dashboard/criteria/Multiple/ViewMultipleRound";
 import JudgingMultiple from "@/pages/dashboard/criteria/Multiple/JudgingMultiple";
+import ScoreResultMultiple from "@/pages/dashboard/result/ScoreResultMultiple";
 
 export const router = createBrowserRouter(
   [
@@ -115,7 +116,7 @@ export const router = createBrowserRouter(
                 },
                 {
                   path: "contest/:contest_id/:group_id/judging-multiple-round",
-                  element: <JudgingMultiple  />,
+                  element: <JudgingMultiple />,
                 },
               ],
             },
@@ -138,7 +139,12 @@ export const router = createBrowserRouter(
               element: <Result />,
               children: [
                 {
-                  path: "result/:contest_id/:group_id/contest-result",
+                  path: "point/:contest_id/:group_id/contest-result",
+                  element: <ScoreResult />,
+                },
+                {
+                  path: "multiple/:contest_id/:group_id/contest-result",
+                  // element: <ScoreResultMultiple />,
                   element: <ScoreResult />,
                 },
               ],

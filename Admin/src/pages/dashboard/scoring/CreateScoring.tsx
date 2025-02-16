@@ -43,7 +43,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 
 const CreateScoring = () => {
-  
   const [selectedJudges, setSelectedJudges] = useState<string[]>([]);
   const [addedJudges, setAddedJudges] = useState<string[]>([]);
   const [judgesId, setJudgesId] = useState<number[]>([]);
@@ -83,24 +82,20 @@ const CreateScoring = () => {
   }, 0);
 
   const onSubmit = async (data: FormValues) => {
-    // const formData = new FormData();
-
-    console.log(data);
     const judges = judgesId.length === 0;
-    console.log(totalScore );
-    if (totalScore === 100) {
+    if (totalScore !== 100) {
+      toast.error("Evaluation score must be total of 100");
+      return;
+    } else if (judges) {
+      toast.error("Please add a judges");
+      return;
+    } else {
       // for (const key in data) {
       //   if (key !== "judges") {
       //     formData.append(key, JSON.stringify(data));
       //   }
       // }
-
       await mutateAsync({ id: Number(params.id), data: data });
-    }
-    if (judges) {
-      toast.error("Please add a judges");
-    } else {
-      toast.error("Evaluation score must be total of 100");
     }
   };
 

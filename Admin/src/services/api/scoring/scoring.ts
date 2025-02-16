@@ -5,7 +5,7 @@ import {
 } from "../../../lib/constant/scoring";
 
 export type Scoring = {
-  id: number;
+  id: string;
   contest_name: string;
   contest_description: string;
   contest_scoring_type: string;
